@@ -1,7 +1,7 @@
 name: tlv_decoder
-description: A new Flutter project.
+description: TLV encoding and decoding.
 version: 0.0.1
-homepage:
+homepage: https://github.com/leithalnajjar/tlv_decoder
 
 environment:
   sdk: '>=2.18.4 <3.0.0'

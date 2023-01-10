@@ -32,3 +32,7 @@ Uint8List encodedData = TlvUtils.encode(tlvList);
 ## Features and bugs
 
 Please feel free for feature requests and bugs at the [issue tracker](https://github.com/leithalnajjar/tlv_decoder/issues).
+
+## License
+
+Project under MIT [license](https://github.com/leithalnajjar/tlv_decoder/blob/master/LICENSE).
