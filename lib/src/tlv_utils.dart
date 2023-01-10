@@ -15,7 +15,8 @@ class TlvUtils {
       if ((length & 0x80) != 0) {
         // The length field is 3 bytes long
         var lengthBytes = data.sublist(offset, offset + 3);
-        length = int.parse(lengthBytes.map((b) => b.toRadixString(16)).join(), radix: 16);
+        length = int.parse(lengthBytes.map((b) => b.toRadixString(16)).join(),
+            radix: 16);
         offset += 3;
       } else {
         // The length field is 1 byte long
