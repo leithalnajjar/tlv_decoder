@@ -39,4 +39,4 @@ Project under MIT [license](https://github.com/leithalnajjar/tlv_decoder/blob/ma
 
 ## Donation
 
-<a href="https://ko-fi.com/alnajjar" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://ko-fi.com/alnajjar)
