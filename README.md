@@ -8,7 +8,7 @@ TLV encoding and decoding.
 
 ```yaml
 dependencies:
-  tlv_decoder: ^0.0.1
+  tlv_decoder: ^0.0.3
 ```
 
 ## Usage
