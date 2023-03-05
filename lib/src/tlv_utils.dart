@@ -2,36 +2,52 @@ import 'dart:typed_data';
 import 'package:tlv_decoder/src/model/tlv_model.dart';
 
 class TlvUtils {
+  /// Decode list bytes to list tlv model
   static List<TLV> decode(Uint8List data) {
     var tlvList = <TLV>[];
     var offset = 0;
     while (offset < data.length) {
-      // Read the type field (1 byte)
+      /// Read the type field (1 byte)
       var type = data[offset];
       offset += 1;
 
-      // Read the length field (1 or 3 bytes)
-      var length = data[offset];
-      if ((length & 0x80) != 0) {
-        // The length field is 3 bytes long
-        var lengthBytes = data.sublist(offset, offset + 3);
-        length = int.parse(lengthBytes.map((b) => b.toRadixString(16)).join(),
-            radix: 16);
-        offset += 3;
-      } else {
-        // The length field is 1 byte long
-        offset += 1;
-      }
-
-      // Read the value field
-      var value = data.sublist(offset, offset + length);
+      /// Read the length field (1, 2 or 3 bytes)
+      var length = _getLength(data, offset);
       offset += length;
+
+      /// Read the value field
+      var valueLength = _getValueLength(data.sublist(offset - length, offset), 0);
+      var value = data.sublist(offset, offset + valueLength);
+      offset += valueLength;
 
       tlvList.add(TLV(type: type, length: length, value: value));
     }
     return tlvList;
   }
 
+  /// Count the number of bytes
+  static int _getLength(Uint8List aBuf, int aOffset) {
+    int len = aBuf[aOffset] & 255;
+    return (len & 128) == 128 ? 1 + (len & 127) : 1;
+  }
+
+  /// Length value
+  static int _getValueLength(Uint8List aBuf, int aOffset) {
+    int length = aBuf[aOffset] & 255;
+    if ((length & 128) == 128) {
+      int numberOfBytes = length & 127;
+      if (numberOfBytes > 3) {
+        throw Exception();
+      }
+      length = 0;
+      for (int i = aOffset + 1; i < aOffset + 1 + numberOfBytes; ++i) {
+        length = length * 256 + (aBuf[i] & 255);
+      }
+    }
+    return length;
+  }
+
+  /// Encode list tlv to list bytes
   static Uint8List encode(List<TLV> tlvList) {
     var data = Uint8List(0);
     for (TLV tlv in tlvList) {
@@ -47,6 +63,7 @@ class TlvUtils {
     return data;
   }
 
+  /// Convert length int to bytes
   static Uint8List _encodeLength(int length) {
     if (length < 128) {
       return Uint8List.fromList([length]);
@@ -57,6 +74,7 @@ class TlvUtils {
     return lengthBytes;
   }
 
+  /// Concat list bytes
   static Uint8List _concatUint8List(List<Uint8List> lists) {
     var totalLength = lists.map((list) => list.length).reduce((a, b) => a + b);
     var result = Uint8List(totalLength);

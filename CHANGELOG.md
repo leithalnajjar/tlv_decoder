@@ -8,3 +8,6 @@
 * ## 0.0.3
 
 * change README.md
+* ## 0.0.4
+
+* Fix get bytes length
