@@ -1,6 +1,6 @@
 name: tlv_decoder
 description: TLV stands for "Type-Length-Value", TLV encoding and decoding.
-version: 0.0.3
+version: 0.0.4
 homepage: https://github.com/leithalnajjar/tlv_decoder
 
 environment:
