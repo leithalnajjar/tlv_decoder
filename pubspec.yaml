@@ -1,10 +1,19 @@
 name: tlv_decoder
-description: TLV stands for "Type-Length-Value", TLV encoding and decoding.
-version: 0.0.4
+description: TLV (Type-Length-Value) encoder and decoder for Dart and Flutter with BER/DER length support.
+version: 0.0.5
 homepage: https://github.com/leithalnajjar/tlv_decoder
+repository: https://github.com/leithalnajjar/tlv_decoder
+issue_tracker: https://github.com/leithalnajjar/tlv_decoder/issues
+
+topics:
+  - tlv
+  - encoding
+  - decoding
+  - ber
+  - der
 
 environment:
-  sdk: '>=2.18.4 <3.0.0'
+  sdk: '>=3.0.0 <4.0.0'
   flutter: ">=1.17.0"
 
 dependencies:
@@ -14,7 +23,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

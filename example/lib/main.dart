@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -23,49 +21,47 @@ class MyApp extends StatelessWidget {
 class HomeScreen extends StatefulWidget {
   final String title;
 
-  const HomeScreen({Key? key, this.title = ''}) : super(key: key);
+  const HomeScreen({super.key, this.title = ''});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  _encode() {
-    List<TLV> tlvListEncoding = [
+  String _output = '';
+
+  void _encode() {
+    final tlvList = [
       TLV(type: 1, length: 3, value: Uint8List.fromList([0x41, 0x42, 0x43])),
-      TLV(type: 2, length: 2, value: Uint8List.fromList([0x44, 0x45]))
+      TLV(type: 2, length: 2, value: Uint8List.fromList([0x44, 0x45])),
     ];
-    Uint8List encodedData = TlvUtils.encode(tlvListEncoding);
+    final encoded = TlvUtils.encode(tlvList);
+    setState(() => _output = 'Encoded: $encoded');
   }
 
-  _decode() {
-    List<int> data = [0x01, 0x03, 0x41, 0x42, 0x43, 0x02, 0x02, 0x44, 0x45];
-    Uint8List bytes = Uint8List.fromList(data);
-    List<TLV> tlvListDecoding = TlvUtils.decode(bytes);
+  void _decode() {
+    final data = Uint8List.fromList(
+      [0x01, 0x03, 0x41, 0x42, 0x43, 0x02, 0x02, 0x44, 0x45],
+    );
+    final tlvList = TlvUtils.decode(data);
+    setState(() => _output = 'Decoded: ${tlvList.join('\n')}');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      appBar: AppBar(title: Text(widget.title)),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            TextButton(
-              onPressed: () {
-                _encode();
-              },
-              child: const Text('Encode'),
-            ),
+            TextButton(onPressed: _encode, child: const Text('Encode')),
             const SizedBox(height: 10),
-            TextButton(
-              onPressed: () {
-                _decode();
-              },
-              child: const Text('Decode'),
+            TextButton(onPressed: _decode, child: const Text('Decode')),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Text(_output),
             ),
           ],
         ),
